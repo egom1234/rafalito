@@ -1,0 +1,22 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/*
+!.vscode/settings.json
+.idea/
+
+# Dependencias (si se añade npm en el futuro)
+node_modules/
+
+# Entorno local
+.env
+.env.local
+
+# Logs
+*.log
+
+# Imágenes originales / assets sin optimizar (subir solo los optimizados)
+assets/raw/
+assets/originals/
