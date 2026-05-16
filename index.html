@@ -1,727 +1,1093 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eclipse Chauffeur | Alquiler de Coche con Chófer para Bodas y Eventos</title>
-  <meta name="description" content="Servicio exclusivo de coche con chófer para bodas, celebraciones, aniversarios y eventos privados. Presencia, elegancia y puntualidad garantizadas.">
-  <meta name="keywords" content="alquiler coche bodas, coche con chofer eventos, coche nupcial, entrada nupcial, coche celebraciones, chofer bodas, coche lujo bodas">
-  <meta name="robots" content="index, follow">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rafalito Car Events — Chófer privado para tu gran día</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:        #FAFAF8;
+  --surface:   #F4F0EA;
+  --surface-2: #EDE8DF;
+  --ink:       #1A1917;
+  --ink-soft:  #4A4845;
+  --ink-muted: #8A8783;
+  --accent:    #9B7D56;
+  --accent-pale: #E8DDD0;
+  --line:      rgba(26,25,23,0.1);
 
-  <meta property="og:title" content="Eclipse Chauffeur | Coche con Chófer para Bodas y Eventos">
-  <meta property="og:description" content="Servicio exclusivo de coche con chófer para bodas, celebraciones, aniversarios y eventos privados.">
-  <meta property="og:type" content="website">
+  --ff-display: 'Cormorant Garamond', Georgia, serif;
+  --ff-ui:      'DM Sans', system-ui, sans-serif;
+  --ease:       cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-  <link rel="stylesheet" href="css/styles.css">
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--ff-ui);
+  font-weight: 300;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-thumb { background: var(--accent); }
+
+a { color: inherit; text-decoration: none; }
+p { max-width: 54ch; }
+
+.container { width: min(90%, 1180px); margin: 0 auto; }
+.section    { padding: clamp(5rem, 10vw, 9rem) 0; }
+.label {
+  font-family: var(--ff-ui);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 2rem 2.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: padding 0.6s var(--ease), background 0.6s var(--ease), border-color 0.6s;
+  border-bottom: 1px solid transparent;
+}
+nav.scrolled {
+  background: rgba(250,250,248,0.93);
+  backdrop-filter: blur(14px);
+  padding: 1.1rem 2.5rem;
+  border-color: var(--line);
+}
+.nav-logo {
+  font-family: var(--ff-display);
+  font-size: 1.55rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-size: 0.75rem; font-weight: 400;
+  letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--ink-soft);
+  position: relative;
+  transition: color 0.3s;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; bottom: -3px; left: 0;
+  width: 0; height: 1px; background: var(--accent);
+  transition: width 0.4s var(--ease);
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-links a:hover::after { width: 100%; }
+.nav-cta {
+  font-size: 0.72rem; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 0.65rem 1.5rem;
+  border: 1px solid var(--ink);
+  transition: background 0.3s, color 0.3s;
+}
+.nav-cta:hover { background: var(--ink); color: var(--bg); }
+
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { display: block; width: 22px; height: 1px; background: var(--ink); transition: transform 0.4s var(--ease), opacity 0.3s; }
+
+.mobile-menu {
+  position: fixed; inset: 0; z-index: 99;
+  background: var(--bg);
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center; gap: 2.5rem;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+.mobile-menu.open { opacity: 1; pointer-events: all; }
+.mobile-menu a {
+  font-family: var(--ff-display);
+  font-size: 2.2rem; font-weight: 300;
+}
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to bottom,
+      rgba(246,240,232,0.22) 0%,
+      rgba(240,231,216,0.58) 50%,
+      rgba(236,227,210,0.90) 78%,
+      rgba(234,224,208,0.97) 100%),
+    url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1920&q=80&fit=crop&auto=format')
+    center top / cover no-repeat;
+  background-color: #EDE5D5;
+}
+.hero-grain {
+  position: absolute; inset: 0; opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+.hero-content {
+  position: relative;
+  padding: clamp(2rem, 5vw, 5rem) clamp(1.5rem, 5vw, 5rem) clamp(4rem, 8vw, 8rem);
+}
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem;
+  opacity: 0; transform: translateY(16px);
+  animation: up 0.9s var(--ease) 0.4s forwards;
+}
+.hero-eyebrow-line { width: 36px; height: 1px; background: var(--accent); }
+.hero-title {
+  font-family: var(--ff-display);
+  font-size: clamp(3.8rem, 9vw, 9rem);
+  font-weight: 300; line-height: 1.05; letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+  opacity: 0; transform: translateY(24px);
+  animation: up 1.1s var(--ease) 0.6s forwards;
+}
+.hero-title em { font-style: italic; color: var(--accent); }
+.hero-sub {
+  font-size: 1.05rem; color: var(--ink-soft); font-weight: 300;
+  max-width: 46ch; line-height: 1.75; margin-bottom: 3rem;
+  opacity: 0; transform: translateY(16px);
+  animation: up 0.9s var(--ease) 0.9s forwards;
+}
+.hero-actions {
+  display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;
+  opacity: 0; transform: translateY(16px);
+  animation: up 0.9s var(--ease) 1.1s forwards;
+}
+.btn-dark {
+  display: inline-flex; align-items: center; gap: 0.8rem;
+  padding: 0.95rem 2rem;
+  background: var(--ink); color: var(--bg);
+  font-family: var(--ff-ui); font-size: 0.74rem;
+  font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+  border: 1px solid var(--ink);
+  transition: background 0.3s, color 0.3s;
+}
+.btn-dark:hover { background: transparent; color: var(--ink); }
+.btn-ghost {
+  font-size: 0.74rem; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--ink-muted);
+  padding-bottom: 2px;
+  transition: color 0.3s, border-color 0.3s;
+}
+.btn-ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+.hero-scroll-hint {
+  position: absolute; right: clamp(2rem, 4vw, 4rem); bottom: clamp(3rem, 5vw, 5rem);
+  display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+  opacity: 0; animation: fadein 1s ease 1.8s forwards;
+}
+.hero-scroll-label {
+  font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--ink-muted); writing-mode: vertical-rl;
+}
+.hero-scroll-bar {
+  width: 1px; height: 56px;
+  background: linear-gradient(to bottom, var(--accent) 0%, transparent 100%);
+  animation: bar 2.2s var(--ease) infinite 2s;
+}
+
+/* ── DIVIDER ── */
+.divider { border: none; border-top: 1px solid var(--line); }
+
+/* ── PHILOSOPHY ── */
+#filosofia { background: var(--bg); }
+.philosophy-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem, 7vw, 9rem);
+  align-items: center;
+}
+.philosophy-pull {
+  font-family: var(--ff-display);
+  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+  font-weight: 300; font-style: italic; line-height: 1.55;
+  margin-bottom: 1.75rem;
+}
+.philosophy-body { color: var(--ink-soft); font-size: 0.94rem; line-height: 1.8; }
+.philosophy-img {
+  aspect-ratio: 4/5;
+  background: var(--surface);
+  position: relative; overflow: hidden;
+}
+.philosophy-img::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--accent-pale) 0%, var(--surface-2) 100%);
+}
+.philosophy-img svg { position: absolute; bottom: 2rem; right: 2rem; }
+
+/* ── SERVICES ── */
+#servicios { background: var(--surface); }
+.services-header { margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
+.services-header h2 {
+  font-family: var(--ff-display);
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  font-weight: 300; line-height: 1.15;
+}
+.services-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  background: var(--line); gap: 1px;
+}
+.service-card {
+  background: var(--surface);
+  padding: clamp(2rem, 3.5vw, 3rem) clamp(1.5rem, 2.5vw, 2.2rem);
+  transition: background 0.5s var(--ease);
+}
+.service-card:hover { background: var(--bg); }
+.service-num {
+  font-family: var(--ff-display);
+  font-size: 3.2rem; font-weight: 300;
+  color: #C4A882;
+  line-height: 1; margin-bottom: 1.5rem;
+}
+.service-title {
+  font-family: var(--ff-display);
+  font-size: 1.55rem; font-weight: 400;
+  margin-bottom: 0.75rem;
+}
+.service-desc { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.75; }
+
+/* ── FLEET ── */
+#flota { background: var(--bg); }
+.fleet-header { margin-bottom: clamp(3rem, 6vw, 5rem); }
+.fleet-header h2 {
+  font-family: var(--ff-display);
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  font-weight: 300; line-height: 1.15;
+}
+.fleet-list { display: flex; flex-direction: column; gap: 0; }
+.fleet-item {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+.fleet-item:last-child { border-bottom: 1px solid var(--line); }
+.fleet-item:nth-child(even) .fleet-visual { order: 2; }
+.fleet-item:nth-child(even) .fleet-body  { order: 1; }
+.fleet-visual {
+  aspect-ratio: 16/9;
+  background: var(--surface);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.5s;
+}
+.fleet-item:hover .fleet-visual { background: var(--surface-2); }
+.fleet-body {
+  padding: clamp(2.5rem, 4vw, 4rem) clamp(2rem, 4vw, 4rem);
+  display: flex; flex-direction: column; justify-content: center;
+  border-left: 1px solid var(--line);
+}
+.fleet-item:nth-child(even) .fleet-body { border-left: none; border-right: 1px solid var(--line); }
+.fleet-class { margin-bottom: 0.6rem; }
+.fleet-model {
+  font-family: var(--ff-display);
+  font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+  font-weight: 300; margin-bottom: 1rem;
+}
+.fleet-desc { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.75; margin-bottom: 1.5rem; }
+.fleet-specs {
+  display: flex; flex-wrap: wrap; gap: 1.5rem;
+  list-style: none;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+.fleet-spec strong { display: block; font-size: 0.82rem; font-weight: 500; }
+.fleet-spec span   { font-size: 0.72rem; color: var(--ink-muted); }
+
+/* ── PROCESS ── */
+#proceso { background: var(--ink); }
+#proceso .label { color: var(--accent); }
+.process-heading {
+  font-family: var(--ff-display);
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  font-weight: 300; line-height: 1.15;
+  color: var(--bg); margin-bottom: clamp(3rem, 5vw, 5rem);
+}
+.process-steps {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: rgba(255,255,255,0.07);
+}
+.process-step {
+  background: var(--ink);
+  padding: clamp(2rem, 3vw, 3rem) clamp(1.5rem, 2.5vw, 2.2rem);
+  transition: background 0.4s;
+}
+.process-step:hover { background: #252320; }
+.step-num {
+  font-family: var(--ff-display);
+  font-size: 3.5rem; font-weight: 300;
+  color: rgba(155,125,86,0.55);
+  line-height: 1; margin-bottom: 1.5rem;
+}
+.step-title {
+  font-family: var(--ff-display);
+  font-size: 1.35rem; font-weight: 400;
+  color: var(--bg); margin-bottom: 0.6rem;
+}
+.step-desc { font-size: 0.86rem; color: rgba(250,250,248,0.5); line-height: 1.7; }
+
+/* ── TESTIMONIALS ── */
+#testimonios { background: var(--bg); }
+.testimonials-header { text-align: center; margin-bottom: clamp(3rem, 6vw, 5rem); }
+.testimonials-header h2 {
+  font-family: var(--ff-display);
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  font-weight: 300; line-height: 1.15;
+}
+.slider { overflow: hidden; }
+.slider-track {
+  display: flex;
+  transition: transform 0.75s var(--ease);
+}
+.slide {
+  min-width: 100%;
+  padding: 0 clamp(0px, 8vw, 10rem);
+  text-align: center;
+}
+.slide-quote {
+  font-family: var(--ff-display);
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+  font-weight: 300; font-style: italic; line-height: 1.65;
+  max-width: 68ch; margin: 0 auto 2rem;
+}
+.slide-author {
+  font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.slide-author strong { color: var(--accent); font-weight: 500; }
+.slider-dots {
+  display: flex; justify-content: center; gap: 0.7rem; margin-top: 2.5rem;
+}
+.s-dot {
+  width: 20px; height: 2px; background: var(--line); cursor: pointer;
+  transition: background 0.3s, width 0.3s var(--ease);
+}
+.s-dot.on { background: var(--accent); width: 36px; }
+
+/* ── CONTACT ── */
+#contacto { background: var(--surface); }
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(3rem, 6vw, 8rem); align-items: start;
+}
+.contact-info h2 {
+  font-family: var(--ff-display);
+  font-size: clamp(2rem, 3.5vw, 3.5rem);
+  font-weight: 300; line-height: 1.2; margin-bottom: 1.25rem;
+}
+.contact-info > p { color: var(--ink-soft); font-size: 0.94rem; margin-bottom: 2.5rem; }
+.contact-details { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+.c-detail { display: flex; align-items: center; gap: 1rem; }
+.c-icon {
+  width: 34px; height: 34px; border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.c-text strong { display: block; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.15rem; }
+.c-text span   { font-size: 0.88rem; color: var(--ink-soft); }
+
+/* FORM */
+.contact-form { display: flex; flex-direction: column; }
+.f-row { display: grid; grid-template-columns: 1fr 1fr; }
+.f-group {
+  position: relative;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  margin: -1px 0 0 0;
+  transition: border-color 0.3s;
+}
+.f-row .f-group { margin: -1px 0 0 -1px; }
+.f-group:focus-within { border-color: var(--accent); z-index: 1; }
+.f-group label {
+  position: absolute; top: 0.85rem; left: 1.1rem;
+  font-size: 0.67rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-muted); pointer-events: none;
+  transition: color 0.3s;
+}
+.f-group:focus-within label { color: var(--accent); }
+.f-group input,
+.f-group textarea,
+.f-group select {
+  display: block; width: 100%;
+  padding: 2.2rem 1.1rem 0.75rem;
+  background: transparent; border: none; outline: none;
+  font-family: var(--ff-ui); font-size: 0.92rem; color: var(--ink);
+  resize: none; appearance: none;
+}
+.f-group select option { background: var(--surface); }
+.f-group textarea { min-height: 110px; }
+.f-submit {
+  margin-top: 0;
+  padding: 1.15rem 2.5rem;
+  background: var(--ink); color: var(--bg);
+  font-family: var(--ff-ui); font-size: 0.74rem;
+  font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
+  border: 1px solid var(--ink); cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  align-self: flex-start;
+}
+.f-submit:hover { background: transparent; color: var(--ink); }
+.form-ok {
+  display: none; padding: 2rem; text-align: center;
+  border: 1px solid var(--accent); background: var(--accent-pale);
+}
+.form-ok.show { display: block; }
+.form-ok p { color: var(--accent); max-width: none; font-size: 0.92rem; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink); color: rgba(250,250,248,0.45);
+  padding: 4rem 0 2.5rem;
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem;
+  padding-bottom: 3rem; margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.footer-brand .nav-logo { color: rgba(250,250,248,0.9); display: block; margin-bottom: 0.75rem; }
+.footer-brand p { font-size: 0.84rem; max-width: 30ch; }
+.footer-col h4 { font-size: 0.67rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(250,250,248,0.3); margin-bottom: 1.1rem; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+.footer-col a { font-size: 0.86rem; transition: color 0.3s; }
+.footer-col a:hover { color: var(--accent); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 0.73rem; flex-wrap: wrap; gap: 0.5rem; }
+
+/* ── ANIMATIONS ── */
+@keyframes up    { to { opacity: 1; transform: translateY(0); } }
+@keyframes fadein { to { opacity: 1; } }
+@keyframes bar {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  50%  { transform: scaleY(1); transform-origin: top; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+[data-reveal] {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+[data-reveal].on { opacity: 1; transform: translateY(0); }
+[data-reveal][data-d="1"] { transition-delay: 0.1s; }
+[data-reveal][data-d="2"] { transition-delay: 0.2s; }
+[data-reveal][data-d="3"] { transition-delay: 0.3s; }
+[data-reveal][data-d="4"] { transition-delay: 0.4s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .philosophy-grid, .contact-grid { grid-template-columns: 1fr; }
+  .fleet-item { grid-template-columns: 1fr; }
+  .fleet-item:nth-child(even) .fleet-visual { order: 0; }
+  .fleet-item:nth-child(even) .fleet-body  { order: 0; border-right: none; }
+  .fleet-body { border-left: none !important; border-top: 1px solid var(--line); }
+  .services-grid, .process-steps { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .f-row { grid-template-columns: 1fr; }
+  .slide { padding: 0; }
+}
+</style>
 </head>
 <body>
 
-  <!-- ═══ HEADER ═══ -->
-  <header class="header" id="header">
-    <div class="header-inner">
-      <a href="#" class="logo">
-        <span class="logo-mark">◈</span>
-        <span class="logo-text">Eclipse <em>Chauffeur</em></span>
-      </a>
-      <nav class="nav" aria-label="Navegación principal">
-        <a href="#servicio" class="nav-link">Servicio</a>
-        <a href="#ocasiones" class="nav-link">Ocasiones</a>
-        <a href="#vehiculo" class="nav-link">El Vehículo</a>
-        <a href="#como-funciona" class="nav-link">Reserva</a>
-        <a href="#contacto" class="nav-link">Contacto</a>
-      </nav>
-      <a href="https://wa.me/34600000000?text=Hola%2C%20me%20gustar%C3%ADa%20consultar%20disponibilidad%20para%20mi%20evento."
-         class="btn-cta" target="_blank" rel="noopener noreferrer">
-        Solicitar Fecha
-      </a>
-      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </header>
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Rafalito Car Events</a>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#flota">Flota</a></li>
+    <li><a href="#proceso">Cómo funciona</a></li>
+    <li><a href="#testimonios">Clientes</a></li>
+  </ul>
+  <a href="#contacto" class="nav-cta">Reservar</a>
+  <button class="hamburger" id="hbg" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-  <!-- Mobile Nav -->
-  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
-    <nav aria-label="Menú móvil">
-      <a href="#servicio" class="mobile-nav-link">Servicio</a>
-      <a href="#ocasiones" class="mobile-nav-link">Ocasiones</a>
-      <a href="#vehiculo" class="mobile-nav-link">El Vehículo</a>
-      <a href="#como-funciona" class="mobile-nav-link">Reserva</a>
-      <a href="#contacto" class="mobile-nav-link">Contacto</a>
-    </nav>
-    <a href="https://wa.me/34600000000?text=Hola%2C%20quiero%20consultar%20disponibilidad%20para%20mi%20evento."
-       class="btn-whatsapp btn-whatsapp--full" target="_blank" rel="noopener noreferrer">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-      </svg>
-      Consultar por WhatsApp
-    </a>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mob">
+  <a href="#servicios" class="mob-link">Servicios</a>
+  <a href="#flota"     class="mob-link">Flota</a>
+  <a href="#proceso"   class="mob-link">Cómo funciona</a>
+  <a href="#testimonios" class="mob-link">Clientes</a>
+  <a href="#contacto"  class="mob-link">Reservar</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span class="label">Chófer privado · Bodas y eventos</span>
+    </div>
+    <h1 class="hero-title">El viaje<br>que <em>mereces</em></h1>
+    <p class="hero-sub">
+      Llega con calma. Cada traslado pensado con cuidado para que tú solo tengas que disfrutar.
+    </p>
+    <div class="hero-actions">
+      <a href="#contacto" class="btn-dark">
+        Solicitar reserva
+        <svg width="16" height="8" viewBox="0 0 16 8" fill="none">
+          <path d="M12 1l3 3-3 3M0 4h15" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </a>
+      <a href="https://wa.me/34600000000" class="btn-ghost">WhatsApp directo</a>
+    </div>
   </div>
+  <div class="hero-scroll-hint">
+    <span class="hero-scroll-label">Descubrir</span>
+    <div class="hero-scroll-bar"></div>
+  </div>
+</section>
 
-  <main>
-
-    <!-- ═══ HERO ═══ -->
-    <section class="hero" id="inicio">
-      <div class="hero-bg" aria-hidden="true">
-        <div class="hero-overlay"></div>
-        <div class="hero-grid"></div>
-        <div class="hero-orbs">
-          <div class="orb orb--1"></div>
-          <div class="orb orb--2"></div>
-        </div>
-      </div>
-      <div class="hero-content">
-        <div class="hero-badge">
-          <span class="badge-dot" aria-hidden="true"></span>
-          Servicio exclusivo con chófer profesional
-        </div>
-        <h1 class="hero-title">
-          Tu llegada<br>
-          <em>es la primera</em><br>
-          impresión.
-        </h1>
-        <p class="hero-subtitle">
-          Coche de lujo con chófer para bodas, celebraciones y eventos que merecen
-          una entrada memorable. Presencia, elegancia y puntualidad garantizadas.
+<!-- PHILOSOPHY -->
+<section id="filosofia" class="section">
+  <div class="container">
+    <div class="philosophy-grid">
+      <div data-reveal>
+        <span class="label" style="margin-bottom:1.5rem;">Nuestra filosofía</span>
+        <p class="philosophy-pull">
+          "El lujo no está en el coche.<br>Está en sentirte cuidado."
         </p>
-        <div class="hero-ctas">
-          <a href="#contacto" class="btn-primary">Solicitar Disponibilidad</a>
-          <a href="https://wa.me/34600000000?text=Hola%2C%20quiero%20consultar%20disponibilidad%20para%20mi%20evento."
-             class="btn-whatsapp" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-            Consultar por WhatsApp
-          </a>
-        </div>
-        <div class="hero-scroll-hint" aria-hidden="true">
-          <span>Descubrir</span>
-          <div class="scroll-line"></div>
-        </div>
+        <p class="philosophy-body">
+          Cada detalle de tu traslado está pensado para que llegues sin estrés, con tiempo de sobra
+          y con la certeza de que alguien se ocupó de todo. Porque tu día grande merece un inicio
+          a la altura.
+        </p>
       </div>
-      <div class="hero-stats" aria-label="Estadísticas del servicio">
-        <div class="stat">
-          <span class="stat-num">100%</span>
-          <span class="stat-label">Servicio con chófer</span>
-        </div>
-        <div class="stat-divider" aria-hidden="true"></div>
-        <div class="stat">
-          <span class="stat-num">+500</span>
-          <span class="stat-label">Eventos realizados</span>
-        </div>
-        <div class="stat-divider" aria-hidden="true"></div>
-        <div class="stat">
-          <span class="stat-num">★ 5.0</span>
-          <span class="stat-label">Valoración media</span>
-        </div>
+      <div class="philosophy-img" data-reveal data-d="2">
+        <svg width="140" height="90" viewBox="0 0 140 90" fill="none" opacity="0.15">
+          <rect x="10" y="28" width="120" height="34" rx="7" fill="#9B7D56"/>
+          <rect x="30" y="14" width="72" height="20" rx="4" fill="#9B7D56"/>
+          <circle cx="32" cy="64" r="12" fill="#9B7D56"/>
+          <circle cx="107" cy="64" r="12" fill="#9B7D56"/>
+          <rect x="0" y="38" width="14" height="12" rx="2" fill="#9B7D56"/>
+          <rect x="126" y="38" width="14" height="12" rx="2" fill="#9B7D56"/>
+        </svg>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <!-- ═══ AVISO CHÓFER ═══ -->
-    <div class="chofer-alert" role="note">
-      <div class="container">
-        <div class="chofer-alert-inner">
-          <span class="chofer-alert-icon" aria-hidden="true">⚡</span>
-          <p class="chofer-alert-text">
-            <strong>Servicio siempre con chófer profesional.</strong>
-            El vehículo no se alquila para conducir por cuenta propia.
-            Nuestro chófer te acompaña en todo momento, garantizando una experiencia impecable de principio a fin.
-          </p>
+<hr class="divider">
+
+<!-- SERVICES -->
+<section id="servicios" class="section">
+  <div class="container">
+    <div class="services-header" data-reveal>
+      <span class="label" style="margin-bottom:1rem;">Lo que ofrecemos</span>
+      <h2>Para cada<br>momento especial</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card" data-reveal data-d="1">
+        <div class="service-num">01</div>
+        <h3 class="service-title">Bodas</h3>
+        <p class="service-desc">Traslado de novios, cortejo e invitados. Coordinamos tiempos con tu wedding planner para que todo fluya.</p>
+      </div>
+      <div class="service-card" data-reveal data-d="2">
+        <div class="service-num">02</div>
+        <h3 class="service-title">Comuniones</h3>
+        <p class="service-desc">Llegada memorable para los protagonistas del día. Decoración personalizada disponible bajo petición.</p>
+      </div>
+      <div class="service-card" data-reveal data-d="3">
+        <div class="service-num">03</div>
+        <h3 class="service-title">Eventos privados</h3>
+        <p class="service-desc">Cenas de empresa, cumpleaños especiales, salidas de noche. Discreción y puntualidad garantizadas.</p>
+      </div>
+      <div class="service-card" data-reveal data-d="1">
+        <div class="service-num">04</div>
+        <h3 class="service-title">Aeropuerto</h3>
+        <p class="service-desc">Seguimiento de vuelo en tiempo real. Sin prisas, sin esperas. Allí cuando aterrizas.</p>
+      </div>
+      <div class="service-card" data-reveal data-d="2">
+        <div class="service-num">05</div>
+        <h3 class="service-title">Transfers VIP</h3>
+        <p class="service-desc">Rutas a medida entre ciudades. Para clientes que valoran el tiempo y la comodidad sobre cualquier otra cosa.</p>
+      </div>
+      <div class="service-card" data-reveal data-d="3">
+        <div class="service-num">06</div>
+        <h3 class="service-title">Día completo</h3>
+        <p class="service-desc">Tu chófer personal durante toda la jornada. Ideal para bodas con varios desplazamientos o visitas ejecutivas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLEET -->
+<section id="flota" class="section">
+  <div class="container">
+    <div class="fleet-header" data-reveal>
+      <span class="label" style="margin-bottom:1rem;">Nuestra flota</span>
+      <h2>Vehículos que<br>hablan por sí solos</h2>
+    </div>
+  </div>
+  <div class="fleet-list">
+    <!-- Mercedes S -->
+    <div class="fleet-item" data-reveal>
+      <div class="fleet-visual">
+        <svg viewBox="0 0 480 270" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- shadow -->
+          <ellipse cx="238" cy="258" rx="172" ry="7" fill="rgba(26,25,23,0.09)"/>
+          <!-- body -->
+          <path d="M40,192 Q32,192 30,180 L30,166 Q36,152 62,140 L108,124 Q118,106 126,90 Q136,66 160,58 L320,56 Q342,56 356,68 L378,100 Q392,122 394,148 Q396,168 393,180 Q390,192 380,192 Z" fill="#C4B8A8"/>
+          <path d="M40,192 Q32,192 30,180 L30,166 Q36,152 62,140 L120,192 Z" fill="#B0A494" opacity="0.4"/>
+          <path d="M126,90 Q136,66 160,58 L320,56 Q342,56 356,68 L378,100 L126,108 Z" fill="#BCB0A0"/>
+          <!-- windows -->
+          <path d="M128,108 L160,60 L196,58 L196,108 Z" fill="rgba(102,136,152,0.72)"/>
+          <rect x="199" y="58" width="74" height="50" fill="rgba(102,136,152,0.72)"/>
+          <path d="M276,58 L342,60 L372,86 L372,108 L276,108 Z" fill="rgba(102,136,152,0.72)"/>
+          <!-- window frames -->
+          <path d="M128,108 L160,60 L342,58 L374,84" stroke="#907E6C" stroke-width="1.5" fill="none"/>
+          <line x1="199" y1="58" x2="199" y2="108" stroke="#907E6C" stroke-width="1"/>
+          <line x1="276" y1="58" x2="276" y2="108" stroke="#907E6C" stroke-width="1"/>
+          <line x1="128" y1="108" x2="374" y2="108" stroke="#907E6C" stroke-width="1.5"/>
+          <!-- crease -->
+          <path d="M68,144 Q110,128 128,110 Q138,100 160,66 L320,60 Q340,60 354,72 L374,98" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- door gap -->
+          <line x1="246" y1="60" x2="246" y2="190" stroke="#B0A090" stroke-width="0.8" opacity="0.55"/>
+          <!-- headlight -->
+          <path d="M32,166 L32,180 Q38,188 52,184 L58,174 L50,158 Z" fill="rgba(242,236,212,0.6)"/>
+          <ellipse cx="46" cy="176" rx="5" ry="6.5" fill="rgba(220,215,190,0.35)"/>
+          <!-- taillight -->
+          <path d="M393,166 L393,182 L386,188 L380,178 L383,162 Z" fill="rgba(185,65,65,0.55)"/>
+          <!-- front wheel arch -->
+          <path d="M90,192 Q122,177 154,192" stroke="#AFA090" stroke-width="2" fill="none"/>
+          <!-- front wheel -->
+          <g transform="translate(122,222)">
+            <circle r="30" fill="#1C1A18"/><circle r="22" fill="#2C2A26"/>
+            <g stroke="#907E6E" stroke-width="3" stroke-linecap="round">
+              <line x1="0" y1="-22" x2="0" y2="-11"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(72)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(144)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(216)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(288)"/>
+            </g>
+            <circle r="10" fill="#1C1A18"/><circle r="5" fill="#907E6E"/>
+          </g>
+          <!-- rear wheel arch -->
+          <path d="M318,192 Q350,177 382,192" stroke="#AFA090" stroke-width="2" fill="none"/>
+          <!-- rear wheel -->
+          <g transform="translate(350,222)">
+            <circle r="30" fill="#1C1A18"/><circle r="22" fill="#2C2A26"/>
+            <g stroke="#907E6E" stroke-width="3" stroke-linecap="round">
+              <line x1="0" y1="-22" x2="0" y2="-11"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(72)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(144)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(216)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(288)"/>
+            </g>
+            <circle r="10" fill="#1C1A18"/><circle r="5" fill="#907E6E"/>
+          </g>
+        </svg>
+      </div>
+      <div class="fleet-body">
+        <span class="label fleet-class">Berlina ejecutiva</span>
+        <h3 class="fleet-model">Mercedes-Benz S-Class</h3>
+        <p class="fleet-desc">El estándar del lujo. Interior en cuero napa, climatización de 4 zonas y sonido Burmester. Para quienes no aceptan compromisos.</p>
+        <ul class="fleet-specs">
+          <li class="fleet-spec"><strong>4</strong><span>plazas</span></li>
+          <li class="fleet-spec"><strong>WiFi</strong><span>incluido</span></li>
+          <li class="fleet-spec"><strong>Agua</strong><span>a bordo</span></li>
+          <li class="fleet-spec"><strong>USB/WL</strong><span>carga</span></li>
+        </ul>
+      </div>
+    </div>
+    <!-- BMW 7 -->
+    <div class="fleet-item" data-reveal>
+      <div class="fleet-visual">
+        <svg viewBox="0 0 480 270" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- shadow -->
+          <ellipse cx="238" cy="258" rx="172" ry="7" fill="rgba(26,25,23,0.09)"/>
+          <!-- body — BMW: frente más erguido, proporciones distintas -->
+          <path d="M44,192 Q36,192 32,180 L32,160 Q38,144 56,130 L90,118 Q108,104 118,86 Q130,64 156,56 L322,54 Q344,54 358,66 L380,96 Q394,118 396,146 Q398,168 395,182 Q392,192 381,192 Z" fill="#C4B8A8"/>
+          <path d="M44,192 Q36,192 32,180 L32,160 Q38,144 56,130 L112,192 Z" fill="#B0A494" opacity="0.38"/>
+          <path d="M118,86 Q130,64 156,56 L322,54 Q344,54 358,66 L380,96 L118,106 Z" fill="#BCB0A0"/>
+          <!-- windows -->
+          <path d="M120,106 L156,58 L192,56 L192,106 Z" fill="rgba(100,134,150,0.72)"/>
+          <rect x="195" y="56" width="76" height="50" fill="rgba(100,134,150,0.72)"/>
+          <path d="M274,56 L342,58 L370,84 L370,106 L274,106 Z" fill="rgba(100,134,150,0.72)"/>
+          <!-- window frames -->
+          <path d="M120,106 L156,58 L342,56 L372,82" stroke="#907E6C" stroke-width="1.5" fill="none"/>
+          <line x1="195" y1="56" x2="195" y2="106" stroke="#907E6C" stroke-width="1"/>
+          <line x1="274" y1="56" x2="274" y2="106" stroke="#907E6C" stroke-width="1"/>
+          <line x1="120" y1="106" x2="372" y2="106" stroke="#907E6C" stroke-width="1.5"/>
+          <!-- BMW crease (más alta y angular) -->
+          <path d="M58,134 Q94,118 118,100 Q130,90 156,64 L322,58 Q342,58 356,70 L376,94" stroke="rgba(255,255,255,0.28)" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- door gap -->
+          <line x1="244" y1="58" x2="244" y2="190" stroke="#B0A090" stroke-width="0.8" opacity="0.5"/>
+          <!-- BMW kidney grille (dos rectángulos) -->
+          <rect x="35" y="164" width="13" height="14" rx="3" fill="#1C1A18" opacity="0.55"/>
+          <rect x="51" y="164" width="13" height="14" rx="3" fill="#1C1A18" opacity="0.55"/>
+          <!-- headlight -->
+          <path d="M34,152 L34,168 Q42,174 56,170 L60,160 L52,146 Z" fill="rgba(240,236,210,0.6)"/>
+          <!-- taillight -->
+          <path d="M395,162 L395,180 L387,186 L382,176 L384,158 Z" fill="rgba(185,65,65,0.55)"/>
+          <!-- front wheel arch -->
+          <path d="M90,192 Q122,177 154,192" stroke="#AFA090" stroke-width="2" fill="none"/>
+          <!-- front wheel — 6 radios (BMW) -->
+          <g transform="translate(122,222)">
+            <circle r="30" fill="#1C1A18"/><circle r="22" fill="#2C2A26"/>
+            <g stroke="#907E6E" stroke-width="3" stroke-linecap="round">
+              <line x1="0" y1="-22" x2="0" y2="-11"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(60)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(120)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(180)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(240)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(300)"/>
+            </g>
+            <circle r="10" fill="#1C1A18"/><circle r="5" fill="#907E6E"/>
+          </g>
+          <!-- rear wheel arch -->
+          <path d="M320,192 Q352,177 384,192" stroke="#AFA090" stroke-width="2" fill="none"/>
+          <!-- rear wheel — 6 radios -->
+          <g transform="translate(352,222)">
+            <circle r="30" fill="#1C1A18"/><circle r="22" fill="#2C2A26"/>
+            <g stroke="#907E6E" stroke-width="3" stroke-linecap="round">
+              <line x1="0" y1="-22" x2="0" y2="-11"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(60)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(120)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(180)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(240)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(300)"/>
+            </g>
+            <circle r="10" fill="#1C1A18"/><circle r="5" fill="#907E6E"/>
+          </g>
+        </svg>
+      </div>
+      <div class="fleet-body">
+        <span class="label fleet-class">Gran turismo</span>
+        <h3 class="fleet-model">BMW Serie 7</h3>
+        <p class="fleet-desc">Dinamismo y elegancia en equilibrio perfecto. Ideal para novios que quieren llegar con carácter.</p>
+        <ul class="fleet-specs">
+          <li class="fleet-spec"><strong>3–4</strong><span>plazas</span></li>
+          <li class="fleet-spec"><strong>WiFi</strong><span>incluido</span></li>
+          <li class="fleet-spec"><strong>Techo</strong><span>panorámico</span></li>
+          <li class="fleet-spec"><strong>Agua</strong><span>a bordo</span></li>
+        </ul>
+      </div>
+    </div>
+    <!-- V-Class -->
+    <div class="fleet-item" data-reveal>
+      <div class="fleet-visual">
+        <svg viewBox="0 0 480 270" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- shadow -->
+          <ellipse cx="238" cy="258" rx="178" ry="7" fill="rgba(26,25,23,0.09)"/>
+          <!-- body — Clase V: alta, rectangular, van -->
+          <path d="M38,194 Q30,194 28,182 L28,70 Q32,52 58,46 L408,46 Q426,46 435,58 L438,180 Q436,194 424,194 Z" fill="#C4B8A8"/>
+          <!-- front face depth -->
+          <path d="M38,194 Q30,194 28,182 L28,70 Q32,52 58,46 L70,46 L70,194 Z" fill="#B0A494" opacity="0.4"/>
+          <!-- roof strip -->
+          <rect x="28" y="46" width="410" height="16" fill="rgba(255,255,255,0.1)"/>
+          <!-- windows — gran cristalera -->
+          <path d="M30,132 L32,58 Q38,48 58,46 L98,46 L98,132 Z" fill="rgba(100,134,150,0.72)"/>
+          <rect x="101" y="46" width="84" height="86" fill="rgba(100,134,150,0.72)"/>
+          <rect x="189" y="46" width="96" height="86" fill="rgba(100,134,150,0.72)"/>
+          <rect x="290" y="46" width="96" height="86" fill="rgba(100,134,150,0.72)"/>
+          <path d="M390,46 L422,52 L422,132 L390,132 Z" fill="rgba(100,134,150,0.65)"/>
+          <!-- window frame lines -->
+          <line x1="98"  y1="46" x2="98"  y2="132" stroke="#907E6C" stroke-width="1.2"/>
+          <line x1="189" y1="46" x2="189" y2="132" stroke="#907E6C" stroke-width="1.2"/>
+          <line x1="288" y1="46" x2="288" y2="132" stroke="#907E6C" stroke-width="1.2"/>
+          <line x1="390" y1="46" x2="390" y2="132" stroke="#907E6C" stroke-width="1.2"/>
+          <line x1="30"  y1="132" x2="424" y2="132" stroke="#907E6C" stroke-width="1.5"/>
+          <!-- puerta corredera -->
+          <line x1="189" y1="132" x2="189" y2="194" stroke="#907E6C" stroke-width="1.2"/>
+          <line x1="288" y1="132" x2="288" y2="194" stroke="#907E6C" stroke-width="1.2"/>
+          <!-- manilla -->
+          <rect x="236" y="162" width="28" height="4" rx="2" fill="#A09080" opacity="0.55"/>
+          <!-- trim lateral -->
+          <rect x="28" y="176" width="410" height="8" rx="2" fill="#B4A898" opacity="0.45"/>
+          <!-- headlight -->
+          <path d="M30,100 L30,130 Q36,136 50,130 L52,118 L48,100 Z" fill="rgba(240,236,212,0.6)"/>
+          <!-- taillight -->
+          <path d="M436,100 L436,132 L428,136 L424,124 L426,98 Z" fill="rgba(185,65,65,0.55)"/>
+          <!-- front wheel arch -->
+          <path d="M86,194 Q118,179 150,194" stroke="#AFA090" stroke-width="2" fill="none"/>
+          <!-- front wheel -->
+          <g transform="translate(118,224)">
+            <circle r="30" fill="#1C1A18"/><circle r="22" fill="#2C2A26"/>
+            <g stroke="#907E6E" stroke-width="3" stroke-linecap="round">
+              <line x1="0" y1="-22" x2="0" y2="-11"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(72)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(144)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(216)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(288)"/>
+            </g>
+            <circle r="10" fill="#1C1A18"/><circle r="5" fill="#907E6E"/>
+          </g>
+          <!-- rear wheel arch -->
+          <path d="M328,194 Q360,179 392,194" stroke="#AFA090" stroke-width="2" fill="none"/>
+          <!-- rear wheel -->
+          <g transform="translate(360,224)">
+            <circle r="30" fill="#1C1A18"/><circle r="22" fill="#2C2A26"/>
+            <g stroke="#907E6E" stroke-width="3" stroke-linecap="round">
+              <line x1="0" y1="-22" x2="0" y2="-11"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(72)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(144)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(216)"/>
+              <line x1="0" y1="-22" x2="0" y2="-11" transform="rotate(288)"/>
+            </g>
+            <circle r="10" fill="#1C1A18"/><circle r="5" fill="#907E6E"/>
+          </g>
+        </svg>
+      </div>
+      <div class="fleet-body">
+        <span class="label fleet-class">Minivan de lujo</span>
+        <h3 class="fleet-model">Mercedes-Benz Clase V</h3>
+        <p class="fleet-desc">Espacio, confort y privacidad para grupos. Perfecta para cortejo o familia. Hasta 6 pasajeros con total comodidad.</p>
+        <ul class="fleet-specs">
+          <li class="fleet-spec"><strong>6</strong><span>plazas</span></li>
+          <li class="fleet-spec"><strong>WiFi</strong><span>incluido</span></li>
+          <li class="fleet-spec"><strong>TV</strong><span>a bordo</span></li>
+          <li class="fleet-spec"><strong>Maletero</strong><span>amplio</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="proceso" class="section">
+  <div class="container">
+    <div data-reveal>
+      <span class="label" style="margin-bottom:1rem;">Así de sencillo</span>
+      <h2 class="process-heading">Cuatro pasos,<br>cero preocupaciones</h2>
+    </div>
+    <div class="process-steps">
+      <div class="process-step" data-reveal data-d="1">
+        <div class="step-num">01</div>
+        <h3 class="step-title">Cuéntanos tu día</h3>
+        <p class="step-desc">Escríbenos o llámanos. Te escuchamos sin prisa para entender exactamente lo que necesitas.</p>
+      </div>
+      <div class="process-step" data-reveal data-d="2">
+        <div class="step-num">02</div>
+        <h3 class="step-title">Diseñamos tu ruta</h3>
+        <p class="step-desc">Preparamos el itinerario, estudiamos los tiempos y confirmamos cada detalle contigo.</p>
+      </div>
+      <div class="process-step" data-reveal data-d="3">
+        <div class="step-num">03</div>
+        <h3 class="step-title">Confirmación tranquila</h3>
+        <p class="step-desc">Recibes confirmación por escrito. Sin sorpresas, sin letras pequeñas, sin estrés.</p>
+      </div>
+      <div class="process-step" data-reveal data-d="4">
+        <div class="step-num">04</div>
+        <h3 class="step-title">Solo disfruta</h3>
+        <p class="step-desc">El día llega. Tu chófer está allí. Tú solo tienes que estar presente y vivir el momento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonios" class="section">
+  <div class="container">
+    <div class="testimonials-header" data-reveal>
+      <span class="label" style="margin-bottom:1rem;">Lo que dicen</span>
+      <h2>Palabras que<br>nos inspiran</h2>
+    </div>
+    <div data-reveal data-d="2">
+      <div class="slider">
+        <div class="slider-track" id="track">
+          <div class="slide">
+            <p class="slide-quote">"Llegué a mi boda sin el mínimo estrés. El chófer fue puntual, amable y nos esperó más tiempo del previsto sin decir nada. Simplemente perfecto."</p>
+            <p class="slide-author">— <strong>Laura G.</strong>, novia — Madrid, 2024</p>
+          </div>
+          <div class="slide">
+            <p class="slide-quote">"Contratamos el servicio para toda la familia el día de la boda de mi hija. Organización impecable. Todo el mundo llegó a tiempo y con una sonrisa."</p>
+            <p class="slide-author">— <strong>Jesús M.</strong>, padre de la novia — Sevilla, 2024</p>
+          </div>
+          <div class="slide">
+            <p class="slide-quote">"Lo usamos para una cena de empresa y quedamos todos impresionados. Discreto, elegante y con una atención al detalle que no esperábamos. Repetiremos."</p>
+            <p class="slide-author">— <strong>Marta P.</strong>, directora — Barcelona, 2025</p>
+          </div>
+        </div>
+      </div>
+      <div class="slider-dots" id="dots">
+        <div class="s-dot on" data-i="0"></div>
+        <div class="s-dot"    data-i="1"></div>
+        <div class="s-dot"    data-i="2"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contacto" class="section">
+  <div class="container">
+    <div class="contact-grid">
+      <div data-reveal>
+        <span class="label" style="margin-bottom:1rem;">Hablemos</span>
+        <div class="contact-info">
+          <h2>Cuéntanos<br>tu momento</h2>
+          <p>Sin compromiso. Cuéntanos qué necesitas y te preparamos una propuesta a medida. Respondemos en menos de 24 horas.</p>
+        </div>
+        <ul class="contact-details">
+          <li class="c-detail">
+            <div class="c-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.01 2.18 2 2 0 012 .01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+            </div>
+            <div class="c-text"><strong>WhatsApp / Teléfono</strong><span>+34 600 000 000</span></div>
+          </li>
+          <li class="c-detail">
+            <div class="c-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="c-text"><strong>Email</strong><span>info@rafalitocarevents.com</span></div>
+          </li>
+          <li class="c-detail">
+            <div class="c-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="c-text"><strong>Respuesta garantizada</strong><span>En menos de 24 horas</span></div>
+          </li>
+        </ul>
+      </div>
+      <div data-reveal data-d="2">
+        <form id="cform" class="contact-form" novalidate>
+          <div class="f-row">
+            <div class="f-group">
+              <label for="f-nom">Tu nombre</label>
+              <input type="text" id="f-nom" name="nombre" autocomplete="given-name">
+            </div>
+            <div class="f-group">
+              <label for="f-tel">Teléfono</label>
+              <input type="tel" id="f-tel" name="telefono" autocomplete="tel">
+            </div>
+          </div>
+          <div class="f-group">
+            <label for="f-mail">Email</label>
+            <input type="email" id="f-mail" name="email" autocomplete="email">
+          </div>
+          <div class="f-group">
+            <label for="f-ev">Tipo de evento</label>
+            <select id="f-ev" name="evento">
+              <option value="" disabled selected></option>
+              <option>Boda</option>
+              <option>Comunión</option>
+              <option>Evento privado</option>
+              <option>Aeropuerto</option>
+              <option>Transfer VIP</option>
+              <option>Día completo</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="f-group">
+            <label for="f-date">Fecha aproximada</label>
+            <input type="date" id="f-date" name="fecha">
+          </div>
+          <div class="f-group">
+            <label for="f-msg">Cuéntanos más</label>
+            <textarea id="f-msg" name="mensaje" rows="4"></textarea>
+          </div>
+          <button type="submit" class="f-submit">Enviar solicitud</button>
+        </form>
+        <div class="form-ok" id="formOk">
+          <p>Gracias, hemos recibido tu consulta. Te contactaremos antes de 24 horas.</p>
         </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- ═══ SERVICIO ═══ -->
-    <section class="servicio" id="servicio" aria-labelledby="servicio-title">
-      <div class="container">
-        <div class="servicio-grid">
-          <div class="servicio-visual">
-            <div class="servicio-img-frame">
-              <div class="img-placeholder img-placeholder--tall">
-                <span>Fotografía del vehículo y chófer</span>
-              </div>
-              <div class="servicio-badge-float" aria-hidden="true">
-                <span>✓</span> Siempre con chófer
-              </div>
-            </div>
-          </div>
-          <div class="servicio-content">
-            <div class="section-label">Nuestro Servicio</div>
-            <h2 class="section-title" id="servicio-title">
-              No alquilamos un coche.<br><em>Ofrecemos una experiencia.</em>
-            </h2>
-            <p class="section-text">
-              Eclipse Chauffeur no es un servicio de alquiler tradicional. Cada servicio incluye un chófer
-              profesional, formado en protocolo, puntualidad y discreción. Tú solo tienes que disfrutar del momento.
-            </p>
-            <p class="section-text">
-              Desde que nuestro chófer llega hasta que te deja en tu destino, todo está cuidado al milímetro.
-              Vehículo preparado, ruta planificada, presencia impecable.
-            </p>
-            <ul class="servicio-pillars" aria-label="Características del servicio">
-              <li class="pillar">
-                <span class="pillar-icon" aria-hidden="true">◈</span>
-                <div class="pillar-text">
-                  <strong>Chófer certificado</strong>
-                  <span>Formado en protocolo de eventos y bodas</span>
-                </div>
-              </li>
-              <li class="pillar">
-                <span class="pillar-icon" aria-hidden="true">◈</span>
-                <div class="pillar-text">
-                  <strong>Vehículo siempre preparado</strong>
-                  <span>Limpio, decorado y listo para tu evento</span>
-                </div>
-              </li>
-              <li class="pillar">
-                <span class="pillar-icon" aria-hidden="true">◈</span>
-                <div class="pillar-text">
-                  <strong>Planificación personalizada</strong>
-                  <span>Coordinamos rutas, horarios y detalles contigo</span>
-                </div>
-              </li>
-            </ul>
-            <a href="#contacto" class="btn-primary">Pedir Presupuesto</a>
-          </div>
-        </div>
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="nav-logo">Rafalito Car Events</span>
+        <p>Chófer privado para bodas, celebraciones y eventos especiales. Porque cada llegada importa.</p>
       </div>
-    </section>
-
-    <!-- ═══ OCASIONES ═══ -->
-    <section class="ocasiones" id="ocasiones" aria-labelledby="ocasiones-title">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-label">Para cada momento especial</div>
-          <h2 class="section-title" id="ocasiones-title">¿Cuál es tu ocasión?</h2>
-          <p class="section-subtitle">Cada evento merece una entrada diferente. Adaptamos el servicio a tu celebración.</p>
-        </div>
-        <div class="ocasiones-grid">
-          <article class="ocasion-card" data-reveal>
-            <div class="ocasion-icon" aria-hidden="true">💍</div>
-            <h3>Bodas</h3>
-            <p>La entrada más importante de tu vida. Llegada nupcial para los novios, traslados familiares y coordinación total con el equipo de la boda.</p>
-          </article>
-          <article class="ocasion-card" data-reveal>
-            <div class="ocasion-icon" aria-hidden="true">🥂</div>
-            <h3>Aniversarios</h3>
-            <p>Sorprende a quien más quieres con una llegada que no olvidará. Servicio diseñado para celebrar juntos con clase y emoción.</p>
-          </article>
-          <article class="ocasion-card" data-reveal>
-            <div class="ocasion-icon" aria-hidden="true">💎</div>
-            <h3>Pedidas de Mano</h3>
-            <p>El momento del sí merece una escena perfecta. Te ayudamos a preparar una pedida de mano con una llegada espectacular y discreta.</p>
-          </article>
-          <article class="ocasion-card" data-reveal>
-            <div class="ocasion-icon" aria-hidden="true">✨</div>
-            <h3>Comuniones</h3>
-            <p>La entrada del protagonista del día, con presencia y elegancia. Una experiencia que la familia recordará durante años.</p>
-          </article>
-          <article class="ocasion-card" data-reveal>
-            <div class="ocasion-icon" aria-hidden="true">👶</div>
-            <h3>Bautizos</h3>
-            <p>Un primer gran día merece un gran estilo. Traslado seguro, elegante y puntual para uno de los momentos más emotivos de la familia.</p>
-          </article>
-          <article class="ocasion-card" data-reveal>
-            <div class="ocasion-icon" aria-hidden="true">🎬</div>
-            <h3>Sesiones Fotográficas</h3>
-            <p>El coche como parte del atrezzo. Ideal para pre-bodas, sesiones de moda, portadas y producciones visuales de alto nivel.</p>
-          </article>
-          <article class="ocasion-card" data-reveal>
-            <div class="ocasion-icon" aria-hidden="true">🏆</div>
-            <h3>Eventos Privados</h3>
-            <p>Galas, presentaciones, cenas de empresa, celebraciones VIP. Servicio de chófer premium para quien no admite compromisos.</p>
-          </article>
-          <article class="ocasion-card ocasion-card--cta" data-reveal>
-            <div class="ocasion-icon" aria-hidden="true">→</div>
-            <h3>¿Tu evento no está aquí?</h3>
-            <p>Cuéntanos tu ocasión. Diseñamos el servicio a tu medida, sin excepciones.</p>
-            <a href="#contacto" class="btn-outline">Consultar</a>
-          </article>
-        </div>
+      <div class="footer-col">
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="#servicios">Bodas</a></li>
+          <li><a href="#servicios">Comuniones</a></li>
+          <li><a href="#servicios">Eventos</a></li>
+          <li><a href="#servicios">Aeropuerto</a></li>
+        </ul>
       </div>
-    </section>
-
-    <!-- ═══ VENTAJAS ═══ -->
-    <section class="ventajas" id="ventajas" aria-labelledby="ventajas-title">
-      <div class="container">
-        <div class="ventajas-inner">
-          <div class="ventajas-content">
-            <div class="section-label">Por qué elegirnos</div>
-            <h2 class="section-title" id="ventajas-title">
-              Cada detalle,<br><em>calculado.</em>
-            </h2>
-            <p class="section-text">
-              No ofrecemos un coche. Ofrecemos la certeza de que ese momento llegará tal y como lo imaginaste:
-              puntual, elegante, sin imprevistos.
-            </p>
-            <a href="https://wa.me/34600000000?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20vuestro%20servicio."
-               class="btn-primary" target="_blank" rel="noopener noreferrer">
-              Hablar con nosotros
-            </a>
-          </div>
-          <ol class="ventajas-list" aria-label="Ventajas del servicio">
-            <li class="ventaja" data-reveal>
-              <div class="ventaja-num" aria-hidden="true">01</div>
-              <div class="ventaja-body">
-                <h3>Imagen exclusiva</h3>
-                <p>Un vehículo que habla por sí solo antes de que digas una sola palabra. Presencia que marca la diferencia.</p>
-              </div>
-            </li>
-            <li class="ventaja" data-reveal>
-              <div class="ventaja-num" aria-hidden="true">02</div>
-              <div class="ventaja-body">
-                <h3>Puntualidad absoluta</h3>
-                <p>En bodas y eventos, el tiempo no se negocia. Llegamos antes para que tú llegues a tiempo. Siempre.</p>
-              </div>
-            </li>
-            <li class="ventaja" data-reveal>
-              <div class="ventaja-num" aria-hidden="true">03</div>
-              <div class="ventaja-body">
-                <h3>Comodidad total</h3>
-                <p>Sin aparcar, sin nervios, sin distracciones. Tú eres el protagonista. Nosotros gestionamos el resto.</p>
-              </div>
-            </li>
-            <li class="ventaja" data-reveal>
-              <div class="ventaja-num" aria-hidden="true">04</div>
-              <div class="ventaja-body">
-                <h3>Atención personalizada</h3>
-                <p>Cada evento es único. Coordinamos contigo hasta el último detalle: rutas, horarios, decoración y protocolo.</p>
-              </div>
-            </li>
-            <li class="ventaja" data-reveal>
-              <div class="ventaja-num" aria-hidden="true">05</div>
-              <div class="ventaja-body">
-                <h3>Experiencia premium</h3>
-                <p>Más de 500 eventos realizados. Sabemos lo que se necesita para que todo salga perfecto, incluso lo que no se ve.</p>
-              </div>
-            </li>
-            <li class="ventaja" data-reveal>
-              <div class="ventaja-num" aria-hidden="true">06</div>
-              <div class="ventaja-body">
-                <h3>Sin sorpresas</h3>
-                <p>Presupuesto cerrado desde el primer momento. Sin costes ocultos, sin letra pequeña. Transparencia total.</p>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══ VEHÍCULO ═══ -->
-    <section class="vehiculo" id="vehiculo" aria-labelledby="vehiculo-title">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-label">El Vehículo</div>
-          <h2 class="section-title" id="vehiculo-title">Más que un coche.<br><em>Una declaración.</em></h2>
-        </div>
-        <div class="vehiculo-showcase">
-          <div class="vehiculo-main-img">
-            <div class="img-placeholder img-placeholder--wide">
-              <span>Imagen principal del vehículo</span>
-            </div>
-            <div class="vehiculo-badge" aria-hidden="true">Vehículo de Alta Gama</div>
-          </div>
-          <div class="vehiculo-details">
-            <div class="vehiculo-imgs-secondary">
-              <div class="img-placeholder img-placeholder--square"><span>Interior</span></div>
-              <div class="img-placeholder img-placeholder--square"><span>Detalle exterior</span></div>
-            </div>
-            <dl class="vehiculo-specs">
-              <div class="spec">
-                <dt class="spec-label">Estilo</dt>
-                <dd class="spec-value">Berlina de lujo / Clásico nupcial</dd>
-              </div>
-              <div class="spec">
-                <dt class="spec-label">Interior</dt>
-                <dd class="spec-value">Piel fina, climatización, silencio absoluto</dd>
-              </div>
-              <div class="spec">
-                <dt class="spec-label">Decoración</dt>
-                <dd class="spec-value">Personalizable para cada evento</dd>
-              </div>
-              <div class="spec">
-                <dt class="spec-label">Capacidad</dt>
-                <dd class="spec-value">Hasta 4 pasajeros en total comodidad</dd>
-              </div>
-            </dl>
-            <a href="#contacto" class="btn-outline">Ver disponibilidad</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══ CÓMO FUNCIONA ═══ -->
-    <section class="como-funciona" id="como-funciona" aria-labelledby="como-title">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-label">El proceso</div>
-          <h2 class="section-title" id="como-title">Tu reserva,<br><em>sin complicaciones.</em></h2>
-        </div>
-        <ol class="pasos" aria-label="Pasos para reservar">
-          <li class="paso" data-reveal>
-            <div class="paso-num" aria-hidden="true">01</div>
-            <div class="paso-content">
-              <h3>Contáctanos</h3>
-              <p>Escríbenos por WhatsApp o rellena el formulario. Cuéntanos el tipo de evento, la fecha y lo que necesitas. Respondemos en menos de 24h.</p>
-            </div>
-          </li>
-          <li class="paso" data-reveal>
-            <div class="paso-num" aria-hidden="true">02</div>
-            <div class="paso-content">
-              <h3>Presupuesto y confirmación</h3>
-              <p>Te enviamos una propuesta personalizada sin compromiso. Si te encaja, confirmamos la reserva con total seguridad y bloqueamos la fecha.</p>
-            </div>
-          </li>
-          <li class="paso" data-reveal>
-            <div class="paso-num" aria-hidden="true">03</div>
-            <div class="paso-content">
-              <h3>Planificación conjunta</h3>
-              <p>Coordinamos contigo cada detalle: rutas, horarios, decoración del vehículo, protocolo de llegada y cualquier personalización especial.</p>
-            </div>
-          </li>
-          <li class="paso" data-reveal>
-            <div class="paso-num" aria-hidden="true">04</div>
-            <div class="paso-content">
-              <h3>El gran día</h3>
-              <p>Nuestro chófer llega puntual, el vehículo impecable. Tú solo tienes que disfrutar. El resto ya está en nuestras manos.</p>
-            </div>
-          </li>
-        </ol>
-        <div class="como-cta">
-          <p>Recomendamos reservar con al menos 4–6 semanas de antelación para fechas especiales.</p>
-          <a href="#contacto" class="btn-primary">Solicitar mi Fecha</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══ GALERÍA ═══ -->
-    <section class="galeria" aria-labelledby="galeria-title">
-      <div class="galeria-header container">
-        <div class="section-label">Galería</div>
-        <h2 class="section-title" id="galeria-title">Momentos que<br><em>permanecen.</em></h2>
-      </div>
-      <div class="galeria-grid" role="list" aria-label="Galería de imágenes">
-        <div class="galeria-item" role="listitem"><div class="img-placeholder img-placeholder--full"><span>Boda — llegada nupcial</span></div></div>
-        <div class="galeria-item" role="listitem"><div class="img-placeholder img-placeholder--full"><span>Interior del vehículo</span></div></div>
-        <div class="galeria-item" role="listitem"><div class="img-placeholder img-placeholder--full"><span>Detalle exterior</span></div></div>
-        <div class="galeria-item galeria-item--wide" role="listitem"><div class="img-placeholder img-placeholder--full"><span>Entrada en celebración</span></div></div>
-        <div class="galeria-item" role="listitem"><div class="img-placeholder img-placeholder--full"><span>Comunión</span></div></div>
-      </div>
-    </section>
-
-    <!-- ═══ TESTIMONIOS ═══ -->
-    <section class="testimonios" id="testimonios" aria-labelledby="testimonios-title">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-label">Lo que dicen nuestros clientes</div>
-          <h2 class="section-title" id="testimonios-title">Experiencias<br><em>reales.</em></h2>
-        </div>
-        <div class="testimonios-grid">
-          <article class="testimonio" data-reveal>
-            <div class="testimonio-stars" aria-label="5 estrellas">★★★★★</div>
-            <blockquote>
-              "El coche llegó puntual, decorado exactamente como pedimos, y el chófer fue impecable durante toda la jornada.
-              Nuestra entrada a la iglesia fue perfecta. No podíamos pedir más."
-            </blockquote>
-            <footer class="testimonio-autor">
-              <div class="autor-avatar" aria-hidden="true">ML</div>
-              <div>
-                <strong>María &amp; Luis</strong>
-                <span>Boda en Sevilla, 2024</span>
-              </div>
-            </footer>
-          </article>
-          <article class="testimonio" data-reveal>
-            <div class="testimonio-stars" aria-label="5 estrellas">★★★★★</div>
-            <blockquote>
-              "Contraté el servicio para la comunión de mi hija y fue todo un acierto. El trato fue muy cercano desde el primer
-              contacto. El día del evento, profesionalidad total."
-            </blockquote>
-            <footer class="testimonio-autor">
-              <div class="autor-avatar" aria-hidden="true">CA</div>
-              <div>
-                <strong>Carmen A.</strong>
-                <span>Comunión, Madrid 2024</span>
-              </div>
-            </footer>
-          </article>
-          <article class="testimonio" data-reveal>
-            <div class="testimonio-stars" aria-label="5 estrellas">★★★★★</div>
-            <blockquote>
-              "Lo usamos para la pedida de mano y fue mágico. Coordinaron todo en silencio y discreción.
-              El momento fue exactamente como lo había imaginado."
-            </blockquote>
-            <footer class="testimonio-autor">
-              <div class="autor-avatar" aria-hidden="true">JR</div>
-              <div>
-                <strong>Javier R.</strong>
-                <span>Pedida de mano, Barcelona 2025</span>
-              </div>
-            </footer>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══ FAQ ═══ -->
-    <section class="faq" id="faq" aria-labelledby="faq-title">
-      <div class="container">
-        <div class="faq-inner">
-          <div class="faq-header-col">
-            <div class="section-label">FAQ</div>
-            <h2 class="section-title" id="faq-title">Preguntas<br><em>frecuentes.</em></h2>
-            <p class="section-text">Si no encuentras tu respuesta, escríbenos. Respondemos en menos de 24h.</p>
-            <a href="https://wa.me/34600000000" class="btn-outline" target="_blank" rel="noopener noreferrer">
-              Preguntar por WhatsApp
-            </a>
-          </div>
-          <div class="faq-list">
-            <div class="faq-item" data-reveal>
-              <button class="faq-question" aria-expanded="false" aria-controls="faq-a-1">
-                ¿Se puede alquilar el coche sin conductor?
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" id="faq-a-1" role="region">
-                <p>No. El servicio de Eclipse Chauffeur es siempre con chófer profesional. No realizamos alquileres sin conductor bajo ningún concepto. Esto garantiza una experiencia premium, segura y sin preocupaciones para nuestros clientes.</p>
-              </div>
-            </div>
-            <div class="faq-item" data-reveal>
-              <button class="faq-question" aria-expanded="false" aria-controls="faq-a-2">
-                ¿Con cuánta antelación debo reservar?
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" id="faq-a-2" role="region">
-                <p>Recomendamos reservar con un mínimo de 4 a 6 semanas de antelación, especialmente para bodas en temporada alta. Para eventos en fechas no especiales, con 2 semanas suele ser suficiente. Si tu evento es inminente, contáctanos igualmente y miramos opciones.</p>
-              </div>
-            </div>
-            <div class="faq-item" data-reveal>
-              <button class="faq-question" aria-expanded="false" aria-controls="faq-a-3">
-                ¿Qué tipos de eventos cubrís?
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" id="faq-a-3" role="region">
-                <p>Bodas, pedidas de mano, aniversarios, comuniones, bautizos, sesiones fotográficas, eventos corporativos, galas privadas y cualquier celebración que requiera presencia, elegancia y puntualidad. Si tu evento no aparece en la lista, contáctanos y lo valoramos.</p>
-              </div>
-            </div>
-            <div class="faq-item" data-reveal>
-              <button class="faq-question" aria-expanded="false" aria-controls="faq-a-4">
-                ¿En qué zonas ofrecéis servicio?
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" id="faq-a-4" role="region">
-                <p>Operamos principalmente en [zona de servicio — actualizar]. Para eventos fuera de nuestra área habitual, consultad disponibilidad y condiciones. Siempre buscamos soluciones para no deciros que no.</p>
-              </div>
-            </div>
-            <div class="faq-item" data-reveal>
-              <button class="faq-question" aria-expanded="false" aria-controls="faq-a-5">
-                ¿Se puede personalizar el servicio?
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" id="faq-a-5" role="region">
-                <p>Sí. Podemos adaptar la decoración del vehículo, el protocolo de llegada, los horarios y el recorrido a las necesidades de cada evento. Cuéntanos tu visión y lo hacemos posible.</p>
-              </div>
-            </div>
-            <div class="faq-item" data-reveal>
-              <button class="faq-question" aria-expanded="false" aria-controls="faq-a-6">
-                ¿Cuánto dura el servicio?
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" id="faq-a-6" role="region">
-                <p>El servicio se adapta a cada evento. Puede ser un traslado puntual (llegada a ceremonia, traslado al banquete) o un servicio completo durante toda la jornada. Lo pactamos antes de la reserva para que el presupuesto sea exacto y sin sorpresas.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══ CTA FINAL ═══ -->
-    <section class="cta-final">
-      <div class="cta-final-bg" aria-hidden="true">
-        <div class="cta-final-overlay"></div>
-        <div class="cta-rings"></div>
-      </div>
-      <div class="container">
-        <div class="cta-final-content">
-          <div class="section-label">¿Listo para reservar?</div>
-          <h2 class="cta-title">
-            Tu momento especial<br><em>merece una entrada perfecta.</em>
-          </h2>
-          <p>Las fechas más solicitadas se reservan con semanas de antelación. No dejes pasar la tuya.</p>
-          <div class="cta-final-actions">
-            <a href="#contacto" class="btn-primary btn-primary--large">Solicitar mi Fecha</a>
-            <a href="https://wa.me/34600000000?text=Hola%2C%20quiero%20reservar%20un%20servicio%20con%20ch%C3%B3fer%20para%20mi%20evento."
-               class="btn-whatsapp btn-whatsapp--large" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-              WhatsApp directo
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══ CONTACTO / FORMULARIO ═══ -->
-    <section class="contacto" id="contacto" aria-labelledby="contacto-title">
-      <div class="container">
-        <div class="contacto-grid">
-          <div class="contacto-info">
-            <div class="section-label">Contacto</div>
-            <h2 class="section-title" id="contacto-title">Solicita<br><em>disponibilidad.</em></h2>
-            <p class="section-text">Rellena el formulario y te respondemos en menos de 24 horas con presupuesto personalizado.</p>
-            <div class="contacto-channels">
-              <a href="https://wa.me/34600000000" class="channel" target="_blank" rel="noopener noreferrer">
-                <div class="channel-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                  </svg>
-                </div>
-                <div>
-                  <strong>WhatsApp</strong>
-                  <span>+34 600 000 000</span>
-                </div>
-              </a>
-              <a href="mailto:info@eclipsechauffeur.com" class="channel">
-                <div class="channel-icon" aria-hidden="true">✉</div>
-                <div>
-                  <strong>Email</strong>
-                  <span>info@eclipsechauffeur.com</span>
-                </div>
-              </a>
-            </div>
-          </div>
-
-          <div class="contacto-form-wrapper">
-            <form class="contacto-form" id="contactForm" novalidate>
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="nombre">Nombre completo *</label>
-                  <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre" autocomplete="name">
-                </div>
-                <div class="form-group">
-                  <label for="telefono">Teléfono *</label>
-                  <input type="tel" id="telefono" name="telefono" required placeholder="+34 600 000 000" autocomplete="tel">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="email">Email *</label>
-                <input type="email" id="email" name="email" required placeholder="tu@email.com" autocomplete="email">
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="tipo-evento">Tipo de evento *</label>
-                  <select id="tipo-evento" name="tipo-evento" required>
-                    <option value="" disabled selected>Selecciona el evento</option>
-                    <option value="boda">Boda</option>
-                    <option value="aniversario">Aniversario</option>
-                    <option value="pedida">Pedida de mano</option>
-                    <option value="comunion">Comunión</option>
-                    <option value="bautizo">Bautizo</option>
-                    <option value="sesion-fotos">Sesión fotográfica</option>
-                    <option value="evento-privado">Evento privado</option>
-                    <option value="otro">Otro</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="fecha">Fecha del evento *</label>
-                  <input type="date" id="fecha" name="fecha" required>
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="lugar">Lugar del evento</label>
-                  <input type="text" id="lugar" name="lugar" placeholder="Ciudad o localidad">
-                </div>
-                <div class="form-group">
-                  <label for="horario">Horario aproximado</label>
-                  <input type="text" id="horario" name="horario" placeholder="Ej: 11:00 – 20:00">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="mensaje">Cuéntanos más sobre tu evento</label>
-                <textarea id="mensaje" name="mensaje" rows="4" placeholder="Describe tu evento, necesidades especiales, número de traslados..."></textarea>
-              </div>
-              <div class="form-footer">
-                <p class="form-note">* Campos obligatorios. Respondemos en menos de 24h.</p>
-                <button type="submit" class="btn-primary btn-primary--submit">
-                  Enviar Solicitud <span class="btn-arrow" aria-hidden="true">→</span>
-                </button>
-              </div>
-              <div class="form-success" id="formSuccess" role="alert" aria-live="polite"></div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ═══ FOOTER ═══ -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="#" class="logo">
-            <span class="logo-mark" aria-hidden="true">◈</span>
-            <span class="logo-text">Eclipse <em>Chauffeur</em></span>
-          </a>
-          <p>Servicio exclusivo de coche con chófer para bodas, celebraciones y eventos privados de alto nivel.</p>
-          <div class="footer-social" aria-label="Redes sociales">
-            <a href="#" aria-label="Instagram">Ig</a>
-            <a href="#" aria-label="Facebook">Fb</a>
-            <a href="https://wa.me/34600000000" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">Wa</a>
-          </div>
-        </div>
-        <nav class="footer-nav" aria-label="Servicio">
-          <h3>Servicio</h3>
-          <a href="#servicio">Servicio con chófer</a>
-          <a href="#ocasiones">Ocasiones</a>
-          <a href="#vehiculo">El vehículo</a>
-          <a href="#como-funciona">Cómo funciona</a>
-        </nav>
-        <nav class="footer-nav" aria-label="Contacto">
-          <h3>Contacto</h3>
-          <a href="https://wa.me/34600000000" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-          <a href="mailto:info@eclipsechauffeur.com">Email</a>
-          <a href="#faq">Preguntas frecuentes</a>
-          <a href="#contacto">Solicitar presupuesto</a>
-        </nav>
-        <div class="footer-contact-col">
-          <h3>Zona de servicio</h3>
-          <p>[Indicar ciudad / comunidad autónoma]</p>
-          <a href="https://wa.me/34600000000?text=Hola%2C%20quiero%20consultar%20disponibilidad."
-             class="btn-whatsapp btn-whatsapp--small" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" aria-hidden="true">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-            Consultar por WhatsApp
-          </a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2025 Eclipse Chauffeur. Todos los derechos reservados.</p>
-        <div class="footer-legal">
-          <a href="#">Política de Privacidad</a>
-          <a href="#">Aviso Legal</a>
-        </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="https://wa.me/34600000000">WhatsApp</a></li>
+          <li><a href="mailto:info@rafalitocarevents.com">Email</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
       </div>
     </div>
-  </footer>
+    <div class="footer-bottom">
+      <span>© 2025 Rafalito Car Events. Todos los derechos reservados.</span>
+      <span>[Ciudad / Comunidad Autónoma]</span>
+    </div>
+  </div>
+</footer>
 
-  <!-- WhatsApp flotante -->
-  <a href="https://wa.me/34600000000?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20servicio%20con%20ch%C3%B3fer."
-     class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
-    <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26" aria-hidden="true">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-    </svg>
-    <span class="whatsapp-float-label">WhatsApp</span>
-  </a>
+<script>
+// NAV
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 70), { passive: true });
 
-  <script src="js/main.js"></script>
+// HAMBURGER
+const hbg = document.getElementById('hbg');
+const mob = document.getElementById('mob');
+let open = false;
+function toggle(v) {
+  open = v;
+  mob.classList.toggle('open', open);
+  const s = hbg.querySelectorAll('span');
+  s[0].style.transform = open ? 'rotate(45deg) translate(4px,4px)' : '';
+  s[1].style.opacity   = open ? '0' : '';
+  s[2].style.transform = open ? 'rotate(-45deg) translate(4px,-4px)' : '';
+}
+hbg.addEventListener('click', () => toggle(!open));
+document.querySelectorAll('.mob-link').forEach(l => l.addEventListener('click', () => toggle(false)));
+
+// REVEAL
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); ro.unobserve(e.target); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
+
+// SLIDER
+const track = document.getElementById('track');
+const dots  = document.querySelectorAll('.s-dot');
+let cur = 0, timer;
+function go(i) {
+  cur = i;
+  track.style.transform = `translateX(-${i * 100}%)`;
+  dots.forEach((d, j) => d.classList.toggle('on', j === i));
+}
+dots.forEach(d => d.addEventListener('click', () => { clearInterval(timer); go(+d.dataset.i); start(); }));
+function start() { timer = setInterval(() => go((cur + 1) % dots.length), 5000); }
+start();
+
+// FORM
+document.getElementById('cform').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('.f-submit');
+  btn.textContent = 'Enviando…'; btn.disabled = true;
+  setTimeout(() => {
+    this.style.display = 'none';
+    document.getElementById('formOk').classList.add('show');
+  }, 1100);
+});
+</script>
 </body>
 </html>
